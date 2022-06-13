@@ -16,6 +16,7 @@ function onSearch(e) {
     e.preventDefault();
 
     photoApiService.query = e.currentTarget.elements.searchQuery.value;
+    photoApiService.resetPage();
     photoApiService.fetchPhotos();
     }
 

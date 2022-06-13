@@ -14,7 +14,12 @@ export default class PhotoApiService {
             this.page += 1;
     });
     }
+
+    resetPage() {
+        this.page = 1;
+    }
     
+
     get query() {
     return this.searchQuery;
     }
