@@ -8,10 +8,12 @@ export default class PhotoApiService {
         console.log(this);
         const url = `https://pixabay.com/api/?key=28020117-3a98d2f0db4e6cde6fe7bd6ea&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`;
 
-    fetch(url)
-    .then(r => r.json())
-        .then(data => {
+    return fetch(url)
+    .then(response => response.json())
+        .then(({ hits }) => {
+            // console.log(hits);
             this.page += 1;
+            return hits;
     });
     }
 
@@ -28,4 +30,9 @@ export default class PhotoApiService {
         this.searchQuery = newQuery;
     }
 }
+
+
+// function onFetchError(error) {
+//      Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+//     }
 
