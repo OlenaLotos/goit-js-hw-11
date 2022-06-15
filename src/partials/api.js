@@ -38,7 +38,7 @@ export default class PhotoApiService {
 }
 
 
-// function onFetchError(error) {
-//      Notify.failure('Sorry, there are no images matching your search query. Please try again.');
-//     }
+function onFetchError(error) {
+     Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+    }
 
