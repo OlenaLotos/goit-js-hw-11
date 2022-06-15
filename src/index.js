@@ -8,6 +8,7 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 const searchForm = document.querySelector('.search-form')
 const loadMoreBtn = document.querySelector('.load-more')
 const galleryContainer = document.querySelector('.gallery')
+const photoCard = document.querySelector(".photo-card")
  
 const photoApiService = new PhotoApiService();
 
@@ -15,14 +16,19 @@ searchForm.addEventListener('submit', onSearch);
 loadMoreBtn.addEventListener('click', onLoad);
 
 function onSearch(e) {
-    e.preventDefault();
+  e.preventDefault();
     
-
-    photoApiService.query = e.currentTarget.elements.searchQuery.value;
-
-    if (photoApiService.query === '') {
+  photoApiService.query = e.currentTarget.elements.searchQuery.value;
+  
+    if (photoApiService.query === '' ) {
          Notify.info('Sorry, there are no images matching your search query. Please try again.');
-    }
+  }
+  //    if (photoApiService.query != 0 ) {
+  //        Notify.info('Hooray! We found ${totalHits} images.');
+  // }
+  //    if (photoApiService.query.length === 0 ) {
+  //        Notify.info('Sorry, there are no images matching your search query. Please try again.');
+  // }
     photoApiService.resetPage();
     photoApiService.fetchPhotos().then(hits => {
         console.log(createGalleryItemMarkup);
@@ -44,57 +50,69 @@ photoApiService.fetchPhotos().then(hits => console.log(hits));
 
 // console.log(createGalleryItemMarkup(hits));
 
-function createGalleryItemMarkup(hits) {
-    hits.map(({ largeImageURL, tags, likes, views, comments, downloads }) => {
-        const card = document.createElement("div");
-        card.classList.add("photo-card");
-        card.innerHTML = `<div class="img"><img class="img" src="${largeImageURL}" alt="${tags}"  loading="lazy" /></div>
-  <div class="info">
-    <p class="info-item">
-      <b>Likes:<br>${likes}</b>
-    </p>
-    <p class="info-item">
-      <b>Views:<br>${views}</b>
-    </p>
-    <p class="info-item">
-      <b>Comments:<br>${comments}</b>
-    </p>
-    <p class="info-item">
-      <b>Downloads:<br>${downloads}</b>
-    </p>
-  </div>`;
-    }).join('');
-    galleryContainer.append(card);
-}
-
 // function createGalleryItemMarkup(hits) {
-//     return hits.map(({ largeImageURL, tags, likes, views, comments, downloads }) => {
+//     hits.map(({ largeImageURL, tags, likes, views, comments, downloads }) => {
 //         const card = document.createElement("div");
 //         card.classList.add("photo-card");
-//         return card.innerHTML = `
-//   <div class="img"><img class="img" src="${largeImageURL}" alt="${tags}"  loading="lazy" /></div>
+//       card.innerHTML = `<div class="img-container">
+//         <a class="gallery__item" href="${largeImageURL}">
+//         <img class="img" src="${largeImageURL}" alt="${tags}"  loading="lazy" /></a></div>
 //   <div class="info">
 //     <p class="info-item">
-//       <b>Likes:<br>${likes}</b>
+//       <b>Likes:</b>
+//       ${likes}
 //     </p>
 //     <p class="info-item">
-//       <b>Views:<br>${views}</b>
+//       <b>Views:</b>
+//       ${views}
 //     </p>
 //     <p class="info-item">
-//       <b>Comments:<br>${comments}</b>
+//       <b>Comments:</b>
+//       ${comments}
 //     </p>
 //     <p class="info-item">
-//       <b>Downloads:<br>${downloads}</b>
+//       <b>Downloads:</b>
+//       ${downloads}
 //     </p>
-//   </div>`;
-//         galleryContainer.append(card);
-//     });
-    
+//   </div>`
+//     }).join('');
+//     galleryContainer.append(card);
 // }
 
+function createGalleryItemMarkup({ largeImageURL, tags, likes, views, comments, downloads }) {
+    const card = document.createElement("div");
+    card.classList.add("photo-card");
+    card.innerHTML = `<div class="img-container"><a class="gallery__item" href="${largeImageURL}"><img class="img" src="${largeImageURL}" alt="${tags}"  loading="lazy" /></a></div>
+  <div class="info">
+    <p class="info-item">
+      <b>Likes:</b>
+      ${likes}
+    </p>
+    <p class="info-item">
+      <b>Views:</b>
+      ${views}
+    </p>
+    <p class="info-item">
+      <b>Comments:</b>
+      ${comments}
+    </p>
+    <p class="info-item">
+      <b>Downloads:</b>
+      ${downloads}
+    </p>
+  </div>`;
+  galleryContainer.append(card);
+  
+}
 
-// new SimpleLightbox('.gallery .photo-card a', { captionDelay: 250, captionsData: "alt"});
-// console.log(hits);
+
+// galleryContainer.addEventListener("click", onImageClick);
+
+// function onImageClick(e) {
+//   e.preventDefault();
+//   let galleryCard = new SimpleLightbox('.img-container a', { captionDelay: 250 });
+//   console.log(galleryCard); 
+// }
 
 function clearGalleryItemMarkup() {
     galleryContainer.innerHTML = '';
