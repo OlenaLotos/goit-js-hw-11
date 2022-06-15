@@ -1,6 +1,6 @@
 // import cards from './partials/cards'
 import PhotoApiService from './partials/api'
-import axios from "axios";
+// import axios from "axios";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
@@ -25,6 +25,7 @@ function onSearch(e) {
     }
     photoApiService.resetPage();
     photoApiService.fetchPhotos().then(hits => {
+        console.log(createGalleryItemMarkup);
         clearGalleryItemMarkup();
         createGalleryItemMarkup(hits);
     });
@@ -34,46 +35,64 @@ function onLoad() {
 photoApiService.fetchPhotos().then(hits => console.log(hits));
 }
 
+// function createGalleryItemMarkup() {
+//     // galleryContainer.insertAdjacentHTML('beforeend', cardTemplate(hits));
+// galleryContainer.insertAdjacentHTML('afterbegin', itemsMarkup);
+// }
 
-function createGalleryItemMarkup() {
-    galleryContainer.insertAdjacentHTML('beforeend', cardTemplate(hits));
+// const itemsMarkup = createGalleryItemMarkup(hits);
+
+// console.log(createGalleryItemMarkup(hits));
+
+ function createGalleryItemMarkup({largeImageURL, tags, likes, views, comments, downloads}) {
+    const card = document.createElement("div");
+    card.classList.add("photo-card");
+    card.innerHTML = `<div class="img"><img class="img" src="${largeImageURL}" alt="${tags}"  loading="lazy" /></div>
+  <div class="info">
+    <p class="info-item">
+      <b>Likes:<br>${likes}</b>
+    </p>
+    <p class="info-item">
+      <b>Views:<br>${views}</b>
+    </p>
+    <p class="info-item">
+      <b>Comments:<br>${comments}</b>
+    </p>
+    <p class="info-item">
+      <b>Downloads:<br>${downloads}</b>
+    </p>
+  </div>`;
+    galleryContainer.append(card);
 }
 
+// function createGalleryItemMarkup(hits) {
+//     return hits.map(({ largeImageURL, tags, likes, views, comments, downloads }) => {
+//         const card = document.createElement("div");
+//         card.classList.add("photo-card");
+//         return card.innerHTML = `
+//   <div class="img"><img class="img" src="${largeImageURL}" alt="${tags}"  loading="lazy" /></div>
+//   <div class="info">
+//     <p class="info-item">
+//       <b>Likes:<br>${likes}</b>
+//     </p>
+//     <p class="info-item">
+//       <b>Views:<br>${views}</b>
+//     </p>
+//     <p class="info-item">
+//       <b>Comments:<br>${comments}</b>
+//     </p>
+//     <p class="info-item">
+//       <b>Downloads:<br>${downloads}</b>
+//     </p>
+//   </div>`;
+//         galleryContainer.append(card);
+//     });
+    
+// }
 
-const itemsMarkup = createGalleryItemMarkup(hits);
-galleryContainer.insertAdjacentHTML('afterbegin', itemsMarkup);
 
-console.log(createGalleryItemMarkup(hits));
-
- function createGalleryItemMarkup(hits) {
-   return hits.map(({webformatURL, largeImageURL, tags, likes, views, comments, downloads}) => {
-         return `
-  <div class="photo-card">
-  <a class='photo-card__img' href=${largeImageURL}>
-    <img src="${webformatURL}" alt="${tags}" loading="lazy"/>
-    </a>
-    <div class="info">
-        <p class="info-item">
-            <b>Likes</b>${likes}
-        </p>
-        <p class="info-item">
-            <b>Vievs</b>${views}
-        </p>
-        <p class="info-item">
-            <b>Comments</b>${comments}
-        </p>
-        <p class="info-item">
-            <b>Downloads</b>${downloads}
-        </p>
-    </div>
-</div>
-`
-}) 
-        .join('');
-}
-new SimpleLightbox('.gallery .photo-card a', { captionDelay: 250, captionsData: "alt"});
-console.log(hits);
-
+// new SimpleLightbox('.gallery .photo-card a', { captionDelay: 250, captionsData: "alt"});
+// console.log(hits);
 
 function clearGalleryItemMarkup() {
     galleryContainer.innerHTML = '';
