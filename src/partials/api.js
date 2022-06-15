@@ -10,12 +10,11 @@ export default class PhotoApiService {
         console.log(this);
         const url = `https://pixabay.com/api/?key=28020117-3a98d2f0db4e6cde6fe7bd6ea&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`;
 
-    return axios.get(url)
-    // .then(response => response.json())
-        .then(({ data: hits }) => {
-            console.log(hits);
+     return axios.get(url)
+        .then(({ data }) => {
+   
             this.incrementPage();
-            return hits;
+            return data.hits;
     });
     }
 

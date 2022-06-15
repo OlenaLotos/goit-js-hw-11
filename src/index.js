@@ -27,7 +27,7 @@ function onSearch(e) {
     photoApiService.fetchPhotos().then(hits => {
         console.log(createGalleryItemMarkup);
         clearGalleryItemMarkup();
-        createGalleryItemMarkup(hits);
+         hits.forEach(item => createGalleryItemMarkup(item))
     });
 }
 
