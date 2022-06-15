@@ -2,6 +2,7 @@ body {
     background-color: #e6e7f2;
 }
 
+
 .wrapper {
     display: flex;
     justify-content: space-around;
@@ -16,6 +17,7 @@ padding: 10px;
 border-radius: 10px;
 min-width: 150px;
 background-color: #92aaf2;
+cursor: pointer;
 }
 
 .search-input {
@@ -35,6 +37,7 @@ padding: 10px;
 border-radius: 10px;
 min-width: 150px;
 background-color: #92aaf2;
+cursor: pointer;
 }
 
 .load-more .is-hidden {
@@ -46,21 +49,20 @@ background-color: #92aaf2;
 // }
 
 .gallery {
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
+    // display: flex;
+    // justify-content: space-evenly;
+    // flex-wrap: wrap;
+              box-sizing: border-box;
+            flex-wrap: wrap;
+            justify-content: center;
+            display: flex;
 }
 
-// .photo-card {
-//     position: relative;
-//     width: 300px;
-//     height: 320px;
-//     border-radius: 5px;
-//     margin-bottom: 10px;
-//     overflow: hidden;
-// }
-
-// .photo-card:hover {
-//     box-shadow: 0px 1px 1px rgba(131, 136, 142, 0.8), 0px 4px 5px rgba(250, 250, 250, 0.56),
-//         1px 4px 6px rgba(177, 206, 239, 0.8);
-// }
+.photo-card {
+    width: calc(25% - 30px);
+    box-sizing: border-box;
+    border-radius: 0 0 4px 4px;
+    margin: 15px;
+    padding: 10px;
+    position: relative;
+}

@@ -12,7 +12,7 @@ export default class PhotoApiService {
 
     return axios.get(url)
     // .then(response => response.json())
-        .then(({ hits }) => {
+        .then(({ data: hits }) => {
             console.log(hits);
             this.incrementPage();
             return hits;

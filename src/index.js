@@ -44,10 +44,11 @@ photoApiService.fetchPhotos().then(hits => console.log(hits));
 
 // console.log(createGalleryItemMarkup(hits));
 
- function createGalleryItemMarkup({largeImageURL, tags, likes, views, comments, downloads}) {
-    const card = document.createElement("div");
-    card.classList.add("photo-card");
-    card.innerHTML = `<div class="img"><img class="img" src="${largeImageURL}" alt="${tags}"  loading="lazy" /></div>
+function createGalleryItemMarkup(hits) {
+    hits.map(({ largeImageURL, tags, likes, views, comments, downloads }) => {
+        const card = document.createElement("div");
+        card.classList.add("photo-card");
+        card.innerHTML = `<div class="img"><img class="img" src="${largeImageURL}" alt="${tags}"  loading="lazy" /></div>
   <div class="info">
     <p class="info-item">
       <b>Likes:<br>${likes}</b>
@@ -62,6 +63,7 @@ photoApiService.fetchPhotos().then(hits => console.log(hits));
       <b>Downloads:<br>${downloads}</b>
     </p>
   </div>`;
+    }).join('');
     galleryContainer.append(card);
 }
 
