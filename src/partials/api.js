@@ -1,43 +1,86 @@
 import axios from "axios";
 export default class PhotoApiService {
     constructor() {
-        this.searchQuery = '';
-        this.page = 1;
-
-    }
-   
-    fetchPhotos() {
-        console.log(this);
-        const url = `https://pixabay.com/api/?key=28020117-3a98d2f0db4e6cde6fe7bd6ea&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`;
-
-     return axios.get(url)
-        .then(({ data }) => {
-   
-            this.incrementPage();
-            return data.hits;
-    });
-    }
-
-    incrementPage() {
-    this.page += 1;
-}
-
-    resetPage() {
+        this.searchQuery = "";
         this.page = 1;
     }
     
 
-    get query() {
-    return this.searchQuery;
-    }
+    fetchPhotos() {
+        const options = {
+            key: "28020117-3a98d2f0db4e6cde6fe7bd6ea",
+            q: '',
+            image_type: "photo",
+            orientation: "horizontal",
+            safesearch: "true",
+            page: this.page,
+            per_page: 40
+        };
 
-    set query(newQuery) {
+        const BASE_URL = "https://pixabay.com/api/";
+
+        const url = `${BASE_URL}?key=${options.key}&q=${this.searchQuery}&image_type=${options.image_type}&orientation=${options.orientation}&safesearch=${options.safesearch}&page=${this.page}&per_page=${options.per_page}`;
+        console.log(url);
+        return axios.get(url, options)
+            .then(data => {
+                console.log(data);
+                this.page += 1;
+                console.log(data);
+                return data.data;
+             });
+    }
+    resetPage() { 
+        this.page = 1;
+    }
+    get query(){
+            return this.searchQuery;
+    }
+    set query(newQuery) { 
         this.searchQuery = newQuery;
     }
 }
 
 
-function onFetchError(error) {
-     Notify.failure('Sorry, there are no images matching your search query. Please try again.');
-    }
 
+// import axios from "axios";
+// export default class PhotoApiService {
+//     constructor() {
+//         this.searchQuery = '';
+//         this.page = 1;
+
+//     }
+   
+//     fetchPhotos() {
+//         console.log(this);
+//         const url = `https://pixabay.com/api/?key=28020117-3a98d2f0db4e6cde6fe7bd6ea&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`;
+
+//      return axios.get(url)
+//         .then(({ data }) => {
+   
+//             this.incrementPage();
+//             return data.hits;
+//     });
+//     }
+
+//     incrementPage() {
+//     this.page += 1;
+// }
+
+//     resetPage() {
+//         this.page = 1;
+//     }
+    
+
+//     get query() {
+//     return this.searchQuery;
+//     }
+
+//     set query(newQuery) {
+//         this.searchQuery = newQuery;
+//     }
+// }
+
+
+// function onFetchError(error) {
+//      Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+//     }
