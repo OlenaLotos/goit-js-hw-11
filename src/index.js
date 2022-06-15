@@ -1,4 +1,3 @@
-// import cards from './partials/cards'
 import PhotoApiService from './partials/api'
 // import axios from "axios";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
@@ -20,15 +19,18 @@ function onSearch(e) {
     
   photoApiService.query = e.currentTarget.elements.searchQuery.value;
   
-    if (photoApiService.query === '' ) {
-         Notify.info('Sorry, there are no images matching your search query. Please try again.');
+ if (photoApiService.query === '' ) {
+   return Notify.info('Please, fill in the search field and try again.');
+   
+ }
+      if (photoApiService.query.value === 0) {
+      return   Notify.info('Sorry, there are no images matching your search query. Please try again.');
+      }
+  
+  else  {
+         Notify.info('Hooray! We found ${totalHits} images.');
   }
-  //    if (photoApiService.query != 0 ) {
-  //        Notify.info('Hooray! We found ${totalHits} images.');
-  // }
-  //    if (photoApiService.query.length === 0 ) {
-  //        Notify.info('Sorry, there are no images matching your search query. Please try again.');
-  // }
+ 
     photoApiService.resetPage();
     photoApiService.fetchPhotos().then(hits => {
         console.log(createGalleryItemMarkup);
@@ -106,13 +108,13 @@ function createGalleryItemMarkup({ largeImageURL, tags, likes, views, comments, 
 }
 
 
-// galleryContainer.addEventListener("click", onImageClick);
+galleryContainer.addEventListener("click", onImageClick);
 
-// function onImageClick(e) {
-//   e.preventDefault();
-//   let galleryCard = new SimpleLightbox('.img-container a', { captionDelay: 250 });
-//   console.log(galleryCard); 
-// }
+function onImageClick(e) {
+  e.preventDefault();
+  let galleryCard = new SimpleLightbox('.img-container a', { captionDelay: 250 });
+  console.log(galleryCard); 
+}
 
 function clearGalleryItemMarkup() {
     galleryContainer.innerHTML = '';
