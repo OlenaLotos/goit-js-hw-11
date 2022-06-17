@@ -7,7 +7,8 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 const refs = {
     form: document.querySelector("#search-form"),
     gallery: document.querySelector(".gallery"),
-    loadBtn: document.querySelector(".load-more")
+  loadBtn: document.querySelector(".load-more"),
+    searchBtn: document.querySelector(".search-btn"),
 }
 const photoApiService = new PhotoApiService();
 
@@ -21,11 +22,36 @@ function onSearch(e) {
   photoApiService.query = e.currentTarget.elements.searchQuery.value;
   photoApiService.resetPage();
   refs.gallery.innerHTML = "";
-  console.log(photoApiService.query);  
+  // console.log(photoApiService.query);  
   photoApiService.fetchPhotos()
     .then(data => {
       if (data.hits.length === 0) {
+        refs.loadBtn.classList.add('is-hidden');
         Notify.failure(`Sorry, there are no images matching your search query. Please try again.`);
+        return;
+      }
+      if (photoApiService.query === '') {
+        refs.loadBtn.classList.add('is-hidden');
+   return Notify.warning('Please, fill in the search field and try again.');
+    }
+      
+      else {
+        data.hits.forEach(createGalleryItemMarkup);
+        refs.loadBtn.classList.remove("is-hidden");
+        Notify.success(`Hooray! We found ${data.totalHits} images.`);
+      }
+    
+    })
+    .catch(error => console.log(error))
+}
+
+function onLoadMore(e) {
+  e.preventDefault();
+photoApiService.fetchPhotos().then(data => {
+  if (data.hits.length === 0) {
+    refs.loadBtn.classList.add('is-hidden');
+
+        Notify.failure(`We're sorry, but you've reached the end of search results.`);
         return;
       }
       if (photoApiService.query === '' ) {
@@ -36,10 +62,10 @@ function onSearch(e) {
         data.hits.forEach(createGalleryItemMarkup);
         Notify.success(`Hooray! We found ${data.totalHits} images.`);
       }
-    
     })
-    .catch(error => console.log(error))
+    .catch(error => console.log(error));
 }
+
 function createGalleryItemMarkup({ largeImageURL, tags, likes, views, comments, downloads }) {
     const card = document.createElement("div");
     card.classList.add("photo-card");
@@ -70,26 +96,10 @@ function onImageClick(e) {
   e.preventDefault();
   
   let galleryCard = new SimpleLightbox('.img-container a', { captionDelay: 250 });
-  // galleryCard.refresh();
+  galleryCard.refresh();
+  refs.gallery.addEventListener("click", galleryCard);
 }
-function onLoadMore(e) {
-  e.preventDefault();
-photoApiService.fetchPhotos().then(data => {
-  if (data.hits.length === 0) {
-        Notify.failure(`Sorry, there are no images matching your search query. Please try again.`);
-        return;
-      }
-      if (photoApiService.query === '' ) {
-   return Notify.warning('Please, fill in the search field and try again.');
-    }
-      
-      else {
-        data.hits.forEach(createGalleryItemMarkup);
-        Notify.success(`Hooray! We found ${data.totalHits} images.`);
-      }
-    })
-    .catch(error => console.log(error));
-}
+
 
 
 

@@ -6,7 +6,7 @@ body {
     z-index: 1;
         text-align: center;
         box-sizing: border-box;
-        background-color: #945ed2;
+        background-color: #9889a8;
         margin: 0 auto;
         padding: 30px;
         position: sticky;
@@ -25,7 +25,7 @@ cursor: pointer;
 
 .submit:hover,
 .submit:focus {
-    background-color: #b094d0;
+    background-color: #ba9cb5;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
      
 }
@@ -53,13 +53,15 @@ cursor: pointer;
 
 .load-more:hover,
 .load-moret:focus {
-    background-color: #b094d0;
+    background-color: #ba9cb5;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 
 }
 
-.load-more .is-hidden {
-    display: none;
+.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
 }
 
 // .load-more > .spinner.is-hidden {
