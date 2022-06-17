@@ -8,7 +8,7 @@ const refs = {
     form: document.querySelector("#search-form"),
     gallery: document.querySelector(".gallery"),
   loadBtn: document.querySelector(".load-more"),
-    searchBtn: document.querySelector(".search-btn"),
+  searchBtn: document.querySelector(".search-btn"),
 }
 const photoApiService = new PhotoApiService();
 
@@ -60,8 +60,8 @@ photoApiService.fetchPhotos().then(data => {
       
       else {
         data.hits.forEach(createGalleryItemMarkup);
-        Notify.success(`Hooray! We found ${data.totalHits} images.`);
-      }
+        onImageClick();
+       }
     })
     .catch(error => console.log(error));
 }
@@ -99,9 +99,6 @@ function onImageClick(e) {
   galleryCard.refresh();
   refs.gallery.addEventListener("click", galleryCard);
 }
-
-
-
 
 
 
